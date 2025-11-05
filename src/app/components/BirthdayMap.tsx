@@ -4,7 +4,11 @@
 
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import mikaImage from "../img/mika_reshaped-removebg-preview.png";
+import mikaImage from "../img/mika1-removebg-preview.png";
+import cannelliniImage from "../img/cannelloni.png";
+import meImage from "../img/fixed_me.png";
+import painting from "../img/painting.png";
+import gabyImage from "../img/fixed_gaby.png";
 
 type Gift = {
   id: string;
@@ -174,8 +178,8 @@ const CollarIcon = () => (
 
 const VinylIcon = () => (
   <svg viewBox="0 0 64 64" className="w-16 h-16">
-    <circle cx="32" cy="32" r="28" fill="#111827" />
-    <circle cx="32" cy="32" r="8" fill="#FBBF24" />
+    <circle cx="32" cy="32" r="30" fill="#111827" />
+    <circle cx="32" cy="32" r="10" fill="#FF7f22" />
     <circle cx="32" cy="32" r="3" fill="#FDE68A" />
   </svg>
 );
@@ -185,31 +189,37 @@ const CatKeychainIcon = () => (
     src={mikaImage.src}
     alt="Cat keychain"
     className="w-20 h-20"
-    style={{ borderRadius: "14px" }}
+    style={{ borderRadius: "14px", objectFit: "contain" }}
   />
 );
-const CanelonesIcon = () => (
-  <svg viewBox="0 0 64 64" className="w-16 h-16">
-    <rect x="8" y="22" width="48" height="20" rx="6" fill="#F3F4F6" />
-    <g transform="translate(12,26)">
-      <rect x="0" y="0" width="10" height="10" rx="2" fill="#F59E0B" />
-      <rect x="12" y="0" width="10" height="10" rx="2" fill="#F97316" />
-      <rect x="24" y="0" width="10" height="10" rx="2" fill="#FB923C" />
-    </g>
-    <path
-      d="M8 18 Q32 6 56 18"
-      stroke="#F97316"
-      strokeWidth="2"
-      fill="none"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-/*
-const meXD = () => (
 
-  );
-*/
+const CanelonesIcon = () => (
+  <img
+    src={cannelliniImage.src}
+    alt="Sweat and viscous... like semen"
+    className="w-20 h-20"
+    style={{ borderRadius: "14px", objectFit: "contain" }}
+  />
+);
+
+const MeIcon = () => (
+  <img
+    src={meImage.src}
+    alt="Cute guy ah?"
+    className="w-20 h-20"
+    style={{ borderRadius: "14px", objectFit: "contain" }}
+  />
+);
+
+const PaintingIcon = () => (
+  <img
+    src={painting.src}
+    alt="spooky paiting, makes me laught tho"
+    className="w-20 h-20"
+    style={{ borderRadius: "14px", objectFit: "contain" }}
+  />
+);
+
 export default function BirthdayMap() {
   const gifts: Gift[] = useMemo(
     () => [
@@ -248,8 +258,8 @@ export default function BirthdayMap() {
         id: "catkey",
         title: "Key-cat 🍫",
         subtitle: "You’ve cat to be kitten me! I meaw you ฅ⁠^⁠•⁠ﻌ⁠•⁠^⁠ฅ",
-        x: 48,
-        y: 68,
+        x: 54,
+        y: 65,
         description:
           "A keyhold based on the thing you love the most, your beautiful (and nearly morbidly obese) cat (⁠=⁠^⁠･⁠ｪ⁠･⁠^⁠=⁠)",
         icon: <CatKeychainIcon />,
@@ -257,12 +267,32 @@ export default function BirthdayMap() {
       {
         id: "cannelloni",
         title: "Cannelloni Lasagna",
-        subtitle: "I Canna-love you",
-        x: 22,
+        subtitle: "I canna-love you you know?",
+        x: 28,
         y: 72,
         description:
           "I wanted to make you your favorite dish for your birthday but you wanted an outside celebration, thats why I wanted to give you this on Sunday insted of today but anyway, you`ll get it I promise ",
         icon: <CanelonesIcon />,
+      },
+      {
+        id: "me",
+        title: "Badass Boyfriend",
+        subtitle: "The best you could get, trully sorry for you",
+        x: 28,
+        y: 43,
+        description:
+          "Handsome, smart, a strong, clean, nice body, v-lined jaw, all that good stuff you are missing by being with me, thank you",
+        icon: <MeIcon />,
+      },
+      {
+        id: "picture",
+        title: "A picture of me & you",
+        subtitle: "You make my .png hard",
+        x: 10,
+        y: 60,
+        description:
+          "You love taking pictures, I`m taking the bullet this time so you can be happy <3",
+        icon: <PaintingIcon />,
       },
     ],
     []
@@ -326,7 +356,7 @@ export default function BirthdayMap() {
 
             {/* map path connecting the points */}
             <path
-              d="M10 25 C22 12, 34 18, 38 26 C42 34, 56 28, 62 32 C68 36, 74 48, 66 56 C58 64, 40 70, 26 72 C12 74, 8 68, 10 60"
+              d="M10 25 C22 12, 34 18, 38 26 C42 34, 56 28, 62 32 C68 36, 74 48, 66 56 C58 64, 40 70, 26 72 C12 74, 8 68, 10 60 C15 55, 20 50, 25 45"
               fill="none"
               stroke="#c084fc"
               strokeWidth="0.6"
@@ -360,7 +390,7 @@ export default function BirthdayMap() {
               className="flex flex-col items-center gap-2"
             >
               <div className="p-2 bg-white/90 rounded-full shadow-md border border-white/60">
-                <div className="w-14 h-14 flex items-center justify-center text-violet-600">
+                <div className="w-20 h-20 flex items-center justify-center text-violet-600">
                   {g.icon}
                 </div>
               </div>
@@ -454,8 +484,10 @@ export default function BirthdayMap() {
                 </button>
 
                 <div className="flex gap-6 items-center">
-                  <div className="w-36 h-36 flex items-center justify-center rounded-xl bg-gradient-to-br from-black to-purple-500 border p-4">
-                    {active.icon}
+                  <div className="w-36 h-36 flex items-center justify-center rounded-xl bg-gradient-to-br from-black to-purple-500 border p-4 overflow-hidden">
+                    <div className="w-full h-full flex items-center justify-center">
+                      {active.icon}
+                    </div>
                   </div>
 
                   <div className="flex-1">
