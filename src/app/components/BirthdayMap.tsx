@@ -4,6 +4,7 @@
 
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import mikaImage from "../img/mika_reshaped-removebg-preview.png";
 
 type Gift = {
   id: string;
@@ -103,9 +104,8 @@ const CollarIcon = () => (
   >
     {/* Collar de perlas */}
     <g transform="translate(10,10)">
-      {/* Perlas (superior semicircular) */}
       {Array.from({ length: 11 }).map((_, i) => {
-        const angle = Math.PI * (i / 10); // distribuye las perlas en semicírculo
+        const angle = Math.PI * (i / 10);
         const x = 50 + Math.cos(angle) * 40;
         const y = 50 + Math.sin(angle) * 40;
         return (
@@ -122,7 +122,7 @@ const CollarIcon = () => (
       })}
     </g>
 
-    {/* Cadenita inferior para dar forma */}
+    {/* Cadenita inferior */}
     <path
       d="M20 60 Q60 90 100 60"
       stroke="#E2C799"
@@ -130,27 +130,43 @@ const CollarIcon = () => (
       fill="none"
     />
 
-    {/* Fresa (colgante) */}
-    <g transform="translate(60,66)">
-      {/* Fruto */}
+    {/* Strawberry Necklace, move the whole necklace */}
+    <g transform="translate(60,70)">
+      {/* Green leaf, adjust this to move it around */}
+      <g transform="translate(0,5)">
+        {/* Left leaf */}
+        <path
+          d="M-4 -2 C0 -6, 4 -6, 4 -2 Q0 -4, -4 -2 Z"
+          fill="#16A34A"
+          stroke="#166534"
+          strokeWidth="0.8"
+          transform="translate(-5, 0) scale(4)"
+        />
+        {/* Right leaf */}
+        <path
+          d="M-4 -2 C0 -6, 4 -6, 4 -2 Q0 -4, -4 -2 Z"
+          fill="#16A34A"
+          stroke="#166534"
+          strokeWidth="0.8"
+          transform="translate(5, 0) scale(-4, 4)"
+        />
+      </g>
+
+      {/* Strawberry */}
       <path
         d="M0 0 C-6 12, 6 12, 0 0 Z"
         fill="#DC2626"
         stroke="#991B1B"
         strokeWidth="1.2"
+        transform="scale(4)"
       />
-      {/* Semillitas */}
+
+      {/* Seeds */}
       <circle cx="-2" cy="5" r="0.8" fill="#FDE68A" />
       <circle cx="0" cy="8" r="0.8" fill="#FDE68A" />
       <circle cx="2" cy="5" r="0.8" fill="#FDE68A" />
-      {/* Hoja verde */}
-      <path
-        d="M-4 -2 C0 -6, 4 -6, 4 -2 Q0 -4, -4 -2 Z"
-        fill="#16A34A"
-        stroke="#166534"
-        strokeWidth="0.8"
-      />
-      {/* Unión al collar */}
+
+      {/* Join */}
       <line x1="0" y1="-2" x2="0" y2="-6" stroke="#E2C799" strokeWidth="1.2" />
     </g>
   </svg>
@@ -165,13 +181,13 @@ const VinylIcon = () => (
 );
 
 const CatKeychainIcon = () => (
-    <img
-      src={require('./assets/cat-keychain.png')}
-      alt="Cat keychain"
-      className="w-20 h-20"
-      style={{ borderRadius: '14px' }} // Si quieres esquinas redondeadas como el SVG
-    />
-  );
+  <img
+    src={mikaImage.src}
+    alt="Cat keychain"
+    className="w-20 h-20"
+    style={{ borderRadius: "14px" }}
+  />
+);
 const CanelonesIcon = () => (
   <svg viewBox="0 0 64 64" className="w-16 h-16">
     <rect x="8" y="22" width="48" height="20" rx="6" fill="#F3F4F6" />
