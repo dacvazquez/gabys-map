@@ -2,7 +2,7 @@
 // - `npm install framer-motion`
 // - Tailwind must be configured in the project.
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mikaImage from "../img/mika1-removebg-preview.png";
 import cannelliniImage from "../img/cannelloni.png";
@@ -224,6 +224,17 @@ export default function BirthdayMap() {
   const gifts: Gift[] = useMemo(
     () => [
       {
+        id: "earings",
+        title: "Butterfly Earings",
+        subtitle:
+          "You said you liked them when you saw them... well I`ve got you those 🦋",
+        x: 10,
+        y: 26,
+        description:
+          "Why did the butterfly won the race? Because she is the `Butter`🧈 at it",
+        icon: <EarringIcon />,
+      },
+      {
         id: "necklace",
         title: "Stawberry Necklace",
         subtitle: "You’re berry 🍓 special to me",
@@ -234,20 +245,9 @@ export default function BirthdayMap() {
         icon: <CollarIcon />,
       },
       {
-        id: "earings",
-        title: "Butterfly Earings",
-        subtitle:
-          "You said you liked them when I asked you so... well I`ve got you those",
-        x: 10,
-        y: 26,
-        description:
-          "Why did the butterfly won the race? Because she is the `Butter` at it",
-        icon: <EarringIcon />,
-      },
-      {
         id: "vinyl",
         title: "Painted Vinyls",
-        subtitle: "I’m spinning for you, like a vinyl on a record player",
+        subtitle: "I’m spinning for you, like a vinyl💿 on a record player",
         x: 67,
         y: 38,
         description:
@@ -267,7 +267,7 @@ export default function BirthdayMap() {
       {
         id: "cannelloni",
         title: "Cannelloni Lasagna",
-        subtitle: "I canna-love you you know?",
+        subtitle: "I canna🇮🇹-love you, you know?",
         x: 28,
         y: 72,
         description:
@@ -275,24 +275,24 @@ export default function BirthdayMap() {
         icon: <CanelonesIcon />,
       },
       {
-        id: "me",
-        title: "Badass Boyfriend",
-        subtitle: "The best you could get, trully sorry for you",
-        x: 28,
-        y: 43,
-        description:
-          "Handsome, smart, a strong, clean, nice body, v-lined jaw, all that good stuff you are missing by being with me, thank you",
-        icon: <MeIcon />,
-      },
-      {
         id: "picture",
         title: "A picture of me & you",
-        subtitle: "You make my .png hard",
+        subtitle: "You make my .png hard 🖼️",
         x: 10,
         y: 60,
         description:
-          "You love taking pictures, I`m taking the bullet this time so you can be happy <3",
+          "You love taking pictures, I`m taking the bullet this time so you neet to give me credit for this <3",
         icon: <PaintingIcon />,
+      },
+      {
+        id: "me",
+        title: "Badass Boyfriend",
+        subtitle: "The best you could get, trully sorry for you 🤭",
+        x: 28,
+        y: 43,
+        description:
+          "Handsome, smart, a strong, clean, nice body, v-lined jaw, all that you are missing by being with me, thank you",
+        icon: <MeIcon />,
       },
     ],
     []
@@ -300,6 +300,35 @@ export default function BirthdayMap() {
 
   const [active, setActive] = useState<Gift | null>(null);
   const [showIntro, setShowIntro] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [revealed, setRevealed] = useState<string[]>([]);
+  const [gabyPos, setGabyPos] = useState({ x: gifts[0].x, y: gifts[0].y });
+  const [isAutoMoving, setIsAutoMoving] = useState(false);
+
+  useEffect(() => {
+    if (currentStep < gifts.length) {
+      const next = gifts[currentStep];
+      setGabyPos({ x: next.x, y: next.y });
+    }
+  }, [currentStep]);
+
+  // Automatic movement
+  useEffect(() => {
+    if (!isAutoMoving) return;
+    if (currentStep >= gifts.length) {
+      setIsAutoMoving(false);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setActive(gifts[currentStep]);
+      if (!revealed.includes(gifts[currentStep].id)) {
+        setRevealed((r) => [...r, gifts[currentStep].id]);
+      }
+    }, 2000); // wait between steps (3 seg)
+
+    return () => clearTimeout(timeout);
+  }, [currentStep, isAutoMoving]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-purple-50 flex items-center justify-center p-6">
@@ -326,11 +355,21 @@ export default function BirthdayMap() {
               onClick={() => setShowIntro((s) => !s)}
               className="px-4 py-2 bg-violet-500 text-white rounded-full shadow hover:scale-[1.02] transition-transform"
             >
-              {showIntro ? "Ocultar" : "Mostrar"} intro
+              {/* AÑADIR MUSICA DE MISKY*/} TURN IT UP/OFF
             </button>
           </div>
         </header>
-
+        {/* Gaby´s floting around image */}
+        <img
+          src={gabyImage.src}
+          alt="Gaby"
+          className="absolute w-24 h-24 rounded-full border-4 border-pink-300 shadow-xl transition-all duration-1000 ease-in-out z-50"
+          style={{
+            left: `${gabyPos.x}%`,
+            top: `${gabyPos.y}%`,
+            transform: "translate(-100%, -50%)",
+          }}
+        />
         {/* SVG map background */}
         <div className="absolute inset-0">
           <svg
@@ -366,40 +405,50 @@ export default function BirthdayMap() {
           </svg>
         </div>
 
-        {/* Nodes */}
-        {gifts.map((g) => (
-          <motion.button
-            key={g.id}
-            layout
-            onClick={() => setActive(g)}
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.08 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${g.x}%`, top: `${g.y}%` }}
-            aria-label={g.title}
-          >
-            <motion.div
-              initial={{ rotate: -10 }}
-              animate={{ rotate: 10 }}
-              transition={{
-                repeat: Infinity,
-                repeatType: "reverse",
-                duration: 2,
+        {gifts.map((g, index) => {
+          const isUnlocked = index <= currentStep;
+          const isRevealed = revealed.includes(g.id);
+
+          return (
+            <motion.button
+              key={g.id}
+              layout
+              disabled={!isUnlocked}
+              onClick={() => {
+                if (index > currentStep) return; // no se puede abrir aún
+                setActive(g);
+                if (!revealed.includes(g.id)) {
+                  setRevealed([...revealed, g.id]);
+                }
               }}
-              className="flex flex-col items-center gap-2"
+              className={`absolute -translate-x-1/2 -translate-y-1/2 transition-all ${
+                !isUnlocked ? "opacity-30 pointer-events-none" : ""
+              }`}
+              style={{ left: `${g.x}%`, top: `${g.y}%` }}
+              aria-label={g.title}
             >
-              <div className="p-2 bg-white/90 rounded-full shadow-md border border-white/60">
-                <div className="w-20 h-20 flex items-center justify-center text-violet-600">
-                  {g.icon}
+              <motion.div
+                initial={{ rotate: -15 }}
+                animate={{ rotate: 15 }}
+                transition={{
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  duration: 1.5,
+                }}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="p-2 bg-white/90 rounded-full shadow-md border border-white/60">
+                  <div className="w-20 h-20 flex items-center justify-center text-violet-600">
+                    {isRevealed ? g.icon : <span className="text-3xl">?</span>}
+                  </div>
                 </div>
-              </div>
-              <span className="text-xs font-medium text-gray-700">
-                {g.title}
-              </span>
-            </motion.div>
-          </motion.button>
-        ))}
+                <span className="text-xs font-medium text-gray-700">
+                  {isRevealed ? g.title : "???"}
+                </span>
+              </motion.div>
+            </motion.button>
+          );
+        })}
 
         {/* Intro / floating card */}
         <AnimatePresence>
@@ -417,13 +466,27 @@ export default function BirthdayMap() {
               <div className="mt-4 flex gap-2">
                 <button
                   onClick={() => {
-                    // small playful animation: open first gift
-                    setActive(gifts[0]);
+                    setShowIntro(false);
+                    setIsAutoMoving(true);
+                    // If the first gift was opened, go to the next one
+                    if (revealed.includes(gifts[0].id)) {
+                      setCurrentStep(1);
+                      setActive(gifts[1]);
+                      setRevealed((r) =>
+                        r.includes(gifts[1].id) ? r : [...r, gifts[1].id]
+                      );
+                    } else {
+                      // If it doesn`t, start from the beguinning
+                      setActive(gifts[0]);
+                      setRevealed([gifts[0].id]);
+                      setCurrentStep(1);
+                    }
                   }}
                   className="px-3 py-2 bg-violet-500 text-white rounded-full text-sm"
                 >
                   Start the journey
                 </button>
+
                 <button
                   onClick={() => {
                     // small fireworks - animate hearts across the screen by toggling a tiny state
@@ -453,7 +516,7 @@ export default function BirthdayMap() {
                   }}
                   className="px-3 py-2 bg-white border rounded-full text-sm"
                 >
-                  Throw gay hearts 💅🏻
+                  Launch gay hearts 💅🏻
                 </button>
               </div>
             </motion.div>
@@ -467,7 +530,7 @@ export default function BirthdayMap() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 flex items-center justify-center p-6 pointer-events-auto"
+              className="absolute inset-0 flex items-center justify-center p-6 pointer-events-auto z-70"
             >
               <motion.div
                 initial={{ scale: 0.85, y: 20 }}
@@ -477,7 +540,12 @@ export default function BirthdayMap() {
                 className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-white/30 p-6 relative"
               >
                 <button
-                  onClick={() => setActive(null)}
+                  onClick={() => {
+                    setActive(null);
+                    if (isAutoMoving && currentStep < gifts.length) {
+                      setCurrentStep((s) => s + 1);
+                    }
+                  }}
                   className="absolute -top-3 -right-3 bg-white rounded-full p-3 shadow-md border"
                 >
                   ✕
