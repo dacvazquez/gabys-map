@@ -304,8 +304,11 @@ export default function BirthdayMap() {
   const [revealed, setRevealed] = useState<string[]>([]);
   const [gabyPos, setGabyPos] = useState({ x: gifts[0].x, y: gifts[0].y });
   const [isAutoMoving, setIsAutoMoving] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    document.title = "Happy Birthday Pretty Pussy <3"
     if (currentStep < gifts.length) {
       const next = gifts[currentStep];
       setGabyPos({ x: next.x, y: next.y });
@@ -335,7 +338,19 @@ export default function BirthdayMap() {
       {/* Container */}
       <div className="relative w-full max-w-6xl h-[80vh] bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/40">
         {/* Top header */}
-        <header className="absolute top-6 left-6 right-6 flex items-center justify-between">
+        <header className="absolute top-6 left-6 right-6 flex items-center justify-between z-[100]">
+          <audio
+            ref={audioRef}
+            src="/mitski.mp3"
+            loop
+            preload="auto"
+            onError={() =>
+              console.error("Could not load music file")
+            }
+            onPlay={() => console.log("Reproducing audio")}
+            onPause={() => console.log("Paused audio")}
+          />
+
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-full bg-white/80 shadow">
               <Heart className="w-8 h-8 text-violet-500" />
@@ -350,12 +365,31 @@ export default function BirthdayMap() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 relative z-[100]">
             <button
-              onClick={() => setShowIntro((s) => !s)}
-              className="px-4 py-2 bg-violet-500 text-white rounded-full shadow hover:scale-[1.02] transition-transform"
+              onClick={() => {
+                if (!audioRef.current) return;
+                if (isPlaying) {
+                  audioRef.current.pause();
+                  setIsPlaying(false);
+                } else {
+                  // Direct call
+                  const playPromise = audioRef.current.play();
+                  if (playPromise !== undefined) {
+                    playPromise
+                      .then(() => setIsPlaying(true))
+                      .catch((error) => {
+                        console.error("Error, can`t reproduce the song, check files:", error);
+                        alert(
+                          "Error, can`t reproduce the song"
+                        );
+                      });
+                  }
+                }
+              }}
+              className="px-4 py-2 bg-violet-500 text-white rounded-full shadow hover:scale-[1.02] transition-transform relative z-[100] pointer-events-auto"
             >
-              {/* AÑADIR MUSICA DE MISKY*/} TURN IT UP/OFF
+              {isPlaying ? "🔇 Turn it OFF" : "🎶 Turn it UP"}
             </button>
           </div>
         </header>
@@ -526,19 +560,35 @@ export default function BirthdayMap() {
         {/* Active Gift Modal */}
         <AnimatePresence>
           {active && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 flex items-center justify-center p-6 pointer-events-auto z-70"
-            >
+            <>
+              {/* Backdrop - clickable to close, but doesn't block header */}
               <motion.div
-                initial={{ scale: 0.85, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.85, y: 20 }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-white/30 p-6 relative"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-black/20 pointer-events-auto z-[60]"
+                onClick={() => {
+                  setActive(null);
+                  if (isAutoMoving && currentStep < gifts.length) {
+                    setCurrentStep((s) => s + 1);
+                  }
+                }}
+              />
+              {/* Modal content */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 flex items-center justify-center p-6 pointer-events-none z-[70]"
               >
+                <motion.div
+                  initial={{ scale: 0.85, y: 20 }}
+                  animate={{ scale: 1, y: 0 }}
+                  exit={{ scale: 0.85, y: 20 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-white/30 p-6 relative pointer-events-auto"
+                  onClick={(e) => e.stopPropagation()}
+                >
                 <button
                   onClick={() => {
                     setActive(null);
@@ -681,6 +731,7 @@ export default function BirthdayMap() {
                 </motion.div>
               </motion.div>
             </motion.div>
+            </>
           )}
         </AnimatePresence>
 
