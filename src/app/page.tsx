@@ -1,11 +1,7 @@
 "use client";
 
-import { Suspense } from "react";
-import PaymentPage from "./components/BirthdayMap";
-import BirthdayMap from "./components/BirthdayMap";
+import IntroSequence from "./components/IntroSequence";
 
 export default function Page() {
-  return (
-      <BirthdayMap />
-  );
+  return <IntroSequence />;
 }

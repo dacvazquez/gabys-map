@@ -334,9 +334,19 @@ export default function BirthdayMap() {
   }, [currentStep, isAutoMoving]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-purple-50 flex items-center justify-center p-6">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-purple-50 flex items-center justify-center p-6"
+    >
       {/* Container */}
-      <div className="relative w-full max-w-6xl h-[80vh] bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/40">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+        className="relative w-full max-w-6xl h-[80vh] bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/40"
+      >
         {/* Top header */}
         <header className="absolute top-6 left-6 right-6 flex items-center justify-between z-[100]">
           <audio
@@ -740,7 +750,7 @@ export default function BirthdayMap() {
           <span></span>
           <span></span>
         </footer>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
