@@ -67,7 +67,7 @@ export default function IntroSequence() {
         animate={{ opacity: [0, 1, 0] }}
         transition={{ duration: 2.5 }}
       >
-        ✨ Let’s Begin ✨
+        HERE WE GO!!
       </motion.h1>
     </motion.div>
   );
@@ -179,10 +179,13 @@ export default function IntroSequence() {
                 scale: [1, 1.05, 1],
               }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="text-6xl font-extrabold text-violet-100 drop-shadow-[0_0_30px_rgba(168,85,247,0.8)]"
+              className="text-8xl font-extrabold text-violet-100 drop-shadow-[0_0_30px_rgba(168,85,247,0.8)]"
             >
-              SOME EPIC SHIT PRESENTATION
-              WELCOME TO HAPPY ROAD
+              🔥EPIC SHIT🔥 
+              PRESENTATION
+              WELCOME TO 
+              <br></br>
+              HAPPY ROAD
             </motion.h1>
             <p className="mt-6 text-violet-300 text-lg opacity-90">
               (click to start your journey)
