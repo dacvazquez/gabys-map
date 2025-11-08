@@ -70,7 +70,7 @@ export default function BirthdayMap() {
   };
 
   const handleStartJourney = () => {
-    setShowIntro(false);
+    // Don't hide the intro card, just start the journey
     setIsAutoMoving(true);
     if (revealed.includes(gifts[0].id)) {
       setCurrentStep(1);

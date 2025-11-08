@@ -31,20 +31,17 @@ export default function WelcomeModal({ show, onClose }: WelcomeModalProps) {
             <p className="text-gray-700 mb-6">
               A map where you can find tons of interesting shit you like.
               <br />
-              You just need to help Gaby 
+              You just need to move around the map and
               <br />
-              (some pretty girl I happen to knowquite well)
+              find all the gifts his <strong>handsome boyfriend</strong> (ahem *clears throat*)
               <br />
-              find all the gifts her <strong>handsome boyfriend</strong>{" "}
-              (ahem *clears throat*)
-              <br />
-              gathered for her. Every gift comes with a very bad joke, survive
+              - gathered for her. Every gift comes with a very bad joke, survive
               <br />
               <br />
               What are you waiting for?
               <br />
               <br />
-              Let's start by clicking the first item, shall we?
+              Start by clicking the first item, shall we?
             </p>
 
             <motion.button

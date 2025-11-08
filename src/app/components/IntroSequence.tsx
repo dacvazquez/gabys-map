@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import BirthdayMap from "./BirthdayMap";
 
 export default function IntroSequence() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1); // Start at -1 for the initial button
   const [showMap, setShowMap] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
 
@@ -18,6 +18,10 @@ export default function IntroSequence() {
       setTransitioning(true);
       setTimeout(() => setShowMap(true), 3000); // wait until animation finishes
     }
+  };
+
+  const handleStart = () => {
+    setStep(0); // Move to first message
   };
 
   // 🌫️ Niebla en movimiento
@@ -85,8 +89,10 @@ export default function IntroSequence() {
 
   return (
     <div
-      onClick={handleClick}
-      className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden cursor-pointer select-none bg-gradient-to-b from-[#0f001a] via-[#210035] to-[#360057]"
+      onClick={step !== -1 ? handleClick : undefined}
+      className={`relative flex flex-col items-center justify-center min-h-screen overflow-hidden select-none bg-gradient-to-b from-[#0f001a] via-[#210035] to-[#360057] ${
+        step !== -1 ? "cursor-pointer" : ""
+      }`}
     >
       {!transitioning && (
         <>
@@ -96,6 +102,45 @@ export default function IntroSequence() {
       )}
 
       <AnimatePresence mode="wait">
+        {step === -1 && (
+          <motion.div
+          key="start"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center max-w-2xl"
+        >
+          <motion.button
+            onClick={handleStart}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0.3, duration: 0.6, ease: "easeOut" },
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative z-120 px-12 py-6 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-2xl font-bold rounded-full shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 border-2 border-violet-400/50"
+          >
+            Press Start
+          </motion.button>
+        
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 1, duration: 0.6, ease: "easeOut" },
+            }}
+            className="mt-6 text-violet-300 text-lg opacity-80"
+          >
+            What is this shit? You are about to find out
+          </motion.p>
+        </motion.div>
+        
+        )}
+
         {step === 0 && (
           <motion.div
             key="step1"
@@ -106,8 +151,8 @@ export default function IntroSequence() {
             className="text-center max-w-3xl"
           >
             <h1 className="text-4xl font-bold text-violet-200 drop-shadow-lg">
-              Well well well, if it isn’t the most beautiful girl in my life
-              (just because I haven’t met Sydney Sweeney... shut up)
+              Well well well, if it isn't the most beautiful girl in my life
+              (just because I haven't met Sydney Sweeney... shut up)
             </h1>
             <p className="mt-4 text-violet-400 text-sm opacity-80">
               (click to continue)
@@ -146,7 +191,7 @@ export default function IntroSequence() {
             <h1 className="text-4xl font-bold text-violet-200 drop-shadow-lg">
               Things that you like, love, enjoy...  
               <br />
-              and that I love, enjoy, and adore giving to you, my love.
+              and that I love, enjoy, and adore giving to you
             </h1>
             <p className="mt-4 text-violet-300 text-sm opacity-80">
               (click to continue)

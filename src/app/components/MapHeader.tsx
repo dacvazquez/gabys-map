@@ -43,7 +43,7 @@ export default function MapHeader({
             Welcome to your Birthday Road
           </h1>
           <p className="text-sm text-gray-600">
-            You give me TONS of great memories, you deserve everything I can
+            You give me <strong>TONS</strong> of great memories, you deserve everything I can
             give you and more
           </p>
         </div>

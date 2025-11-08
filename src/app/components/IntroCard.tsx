@@ -1,7 +1,5 @@
-import React from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gift } from "./giftsData";
-import { Heart } from "./GiftIcons";
 
 interface IntroCardProps {
   show: boolean;
@@ -14,7 +12,17 @@ export default function IntroCard({
   show,
   onStartJourney,
   onLaunchHearts,
+  firstGiftRevealed,
 }: IntroCardProps) {
+  const [showStartButton, setShowStartButton] = useState(true);
+  const [showArrow, setShowArrow] = useState(true);
+
+  const handleStartJourney = () => {
+    setShowStartButton(false);
+    setShowArrow(false);
+    onStartJourney();
+  };
+
   return (
     <AnimatePresence>
       {show && (
@@ -28,15 +36,71 @@ export default function IntroCard({
           <p className="mt-2 text-sm text-gray-600">
             Lets see where the road takes us :3 ...
           </p>
-          <div className="mt-4 flex gap-2">
-            <button
-              onClick={onStartJourney}
-              className="px-3 py-2 bg-violet-500 text-white rounded-full text-sm"
-            >
-              Start the journey
-            </button>
 
-            <button onClick={onLaunchHearts} className="px-3 py-2 bg-white border rounded-full text-sm">
+          <div className="mt-4 flex gap-2 flex-wrap relative">
+            {/* Flecha animada — solo si ya se reveló el primer regalo */}
+            <AnimatePresence>
+              {firstGiftRevealed && showArrow && showStartButton && (
+                <motion.div
+                  key="arrow"
+                  initial={{ opacity: 0, x: -10, y: 0 }}
+                  animate={{
+                    opacity: [0, 1, 0],
+                    x: [-30, 10, -30], // ← movimiento izquierda ↔ derecha
+                    transition: {
+                      duration: 2.0,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
+                  }}
+                  exit={{ opacity: 0 }}
+                  className="absolute left-[-50px] top-1/2 -translate-y-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-8 h-8 text-violet-500 rotate-90" // ← apunta a la derecha
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 19V5m0 0l-7 7m7-7l7 7"
+                    />
+                  </svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Botón Start the journey */}
+            <AnimatePresence>
+              {showStartButton && (
+                <motion.button
+                  key="start-button"
+                  initial={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={handleStartJourney}
+                  disabled={!firstGiftRevealed} // Locked if the first gift is not revealed yet
+                  className={`px-7 py-2 rounded-full text-sm relative z-[10] transition-all
+        ${
+          firstGiftRevealed
+            ? "bg-violet-500 text-white hover:scale-[1.05]"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+                >
+                  Start the journey
+                </motion.button>
+              )}
+            </AnimatePresence>
+
+            {/* Botón Launch hearts */}
+            <button
+              onClick={onLaunchHearts}
+              className="px-3 py-2 bg-white border rounded-full text-sm"
+            >
               Launch gay hearts 💅🏻
             </button>
           </div>
@@ -71,4 +135,3 @@ export function launchHeartsAnimation() {
     }, 700 + Math.random() * 400);
   }
 }
-
