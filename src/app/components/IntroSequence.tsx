@@ -104,41 +104,40 @@ export default function IntroSequence() {
       <AnimatePresence mode="wait">
         {step === -1 && (
           <motion.div
-          key="start"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-2xl"
-        >
-          <motion.button
-            onClick={handleStart}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              transition: { delay: 0.3, duration: 0.6, ease: "easeOut" },
-            }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative z-120 px-12 py-6 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-2xl font-bold rounded-full shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 border-2 border-violet-400/50"
+            key="start"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center max-w-2xl"
           >
-            Press Start
-          </motion.button>
-        
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              transition: { delay: 1, duration: 0.6, ease: "easeOut" },
-            }}
-            className="mt-6 text-violet-300 text-lg opacity-80"
-          >
-            What is this shit? You are about to find out
-          </motion.p>
-        </motion.div>
-        
+            <motion.button
+              onClick={handleStart}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: { delay: 0.3, duration: 0.6, ease: "easeOut" },
+              }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative z-120 px-12 py-6 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-2xl font-bold rounded-full shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 border-2 border-violet-400/50"
+            >
+              Press Start
+            </motion.button>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: { delay: 1, duration: 0.6, ease: "easeOut" },
+              }}
+              className="mt-6 text-violet-300 text-lg opacity-80"
+            >
+              What is this shit? You are about to find out
+            </motion.p>
+          </motion.div>
         )}
 
         {step === 0 && (
@@ -167,11 +166,18 @@ export default function IntroSequence() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 1 }}
-            className="text-center max-w-3xl"
+            className="text-center max-w-4xl"
           >
             <h1 className="text-4xl font-bold text-violet-200 drop-shadow-lg">
-              I know it’s your birthday, so I wanted to give you a little trip —
-              a trip about the things I’ve learned about you.
+              I know you like handrafted presents, but... 
+              <br/>
+              I suck at it :(
+              <br/>
+              So I did my own handcraft present for you... tecnichaly... (cuz I use my hands to code this XD)
+              <br />
+              <br />
+              I wanted to give you a little trip for your birthday
+              a trip about the things I’ve learned about you
             </h1>
             <p className="mt-4 text-violet-300 text-sm opacity-80">
               (click to continue)
@@ -189,9 +195,9 @@ export default function IntroSequence() {
             className="text-center max-w-3xl"
           >
             <h1 className="text-4xl font-bold text-violet-200 drop-shadow-lg">
-              Things that you like, love, enjoy...  
+              Things that you like, love, enjoy...
               <br />
-              and that I love, enjoy, and adore giving to you
+              and that I also like, love, and enjoy giving to you
             </h1>
             <p className="mt-4 text-violet-300 text-sm opacity-80">
               (click to continue)
@@ -226,9 +232,7 @@ export default function IntroSequence() {
               transition={{ repeat: Infinity, duration: 2 }}
               className="text-8xl font-extrabold text-violet-100 drop-shadow-[0_0_30px_rgba(168,85,247,0.8)]"
             >
-              🔥EPIC SHIT🔥 
-              PRESENTATION
-              WELCOME TO 
+              🔥EPIC SHIT🔥 PRESENTATION WELCOME TO
               <br></br>
               HAPPY ROAD
             </motion.h1>
@@ -244,4 +248,3 @@ export default function IntroSequence() {
     </div>
   );
 }
-
